@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KA$H Shop</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+        }
+        .shop-container {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .shop-item {
+            margin: 20px;
+            border: 1px solid #f00;
+            padding: 20px;
+            width: 200px;
+            background-color: #111;
+        }
+        .shop-item img {
+            width: 100%;
+            height: auto;
+        }
+        .shop-item h2 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .shop-item p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .shop-item button {
+            padding: 10px 20px;
+            background-color: #f00;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .shop-item button:hover {
+            background-color: #c00;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #111;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #f00;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            background-color: #333;
+            color: white;
+        }
+        .modal-content button {
+            padding: 10px;
+            background-color: #f00;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #c00;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>KA$H Shop</h1>
+    <div class="shop-container">
+        <!-- KA$H Hoodie -->
+        <div class="shop-item">
+            <img src="kash-hoodie.jpg" alt="KA$H Hoodie"> <!-- Replace with your hoodie image -->
+            <h2>KA$H Hoodie</h2>
+            <p>$49.99</p>
+            <button onclick="openModal()">Buy Now</button>
+        </div>
+        <!-- KA$H Tee -->
+        <div class="shop-item">
+            <img src="kash-tee.jpg" alt="KA$H Tee"> <!-- Replace with your tee image -->
+            <h2>KA$H Tee</h2>
+            <p>$29.99</p>
+            <button onclick="openModal()">Buy Now</button>
+        </div>
+        <!-- KA$H Blue and Red Tee -->
+        <div class="shop-item">
+            <img src="kash-blue-red-tee.jpg" alt="KA$H Blue and Red Tee"> <!-- Replace with your blue and red tee image -->
+            <h2>KA$H Blue and Red Tee</h2>
+            <p>$34.99</p>
+            <button onclick="openModal()">Buy Now</button>
+        </div>
+    </div>
+
+    <!-- Modal for Order Form -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Enter Your Details</h2>
+            <form id="orderForm" action="https://formspree.io/f/xdknbbpr" method="POST">
+                <input type="text" name="fullName" placeholder="Full Name" required>
+                <input type="text" name="address" placeholder="Address" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Open the modal
+        function openModal() {
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        // Close the modal
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // Handle form submission
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                closeModal();
+                if (response.ok) {
+                    alert('You will receive a message on your phone or email with instructions on how to pay.');
+                    form.reset();
+                } else {
+                    alert('Oops! There was a problem submitting your form.');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
